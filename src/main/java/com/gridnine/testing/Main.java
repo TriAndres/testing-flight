@@ -1,27 +1,63 @@
 package com.gridnine.testing;
 
-import com.gridnine.testing.model.Flight;
-import com.gridnine.testing.model.Segment;
-
-import java.time.LocalDateTime;
-import java.util.List;
-
-import static com.gridnine.testing.testing.FlightBuilder.createFlight;
-import static com.gridnine.testing.testing.FlightBuilder.createFlights;
+import static com.gridnine.testing.controiller.FlightController.flightService;
+import static com.gridnine.testing.controiller.FlightController.taskService;
+import static com.gridnine.testing.methods.console.Console.getInteger;
 
 public class Main {
     public static void main(String[] args) {
-        System.out.println("Введите дату вылета:");
-        LocalDateTime time1 = LocalDateTime.now().minusDays(5);
-        System.out.println("Введите дату прилёта:");
-        LocalDateTime time2 = LocalDateTime.now().plusDays(5);
-        Segment segment1 = new Segment(time1, time2);
-        Flight flight = new Flight(List.of(segment1));
-        System.out.println(flight);
+        new Main().game();
+    }
 
-        for (Segment segment : flight.getSegments()) {
-            createFlight(segment.getArrivalDate(),segment.getArrivalDate());
-            System.out.println(createFlights());
+    public void game() {
+        int num;
+        do {
+            num = menu();
+            select(num);
+        } while (num != 0);
+    }
+
+    private void select(int num) {
+        switch (num) {
+            case 1:
+                flightService().create();
+                System.out.println("Записано.");
+                break;
+            case 2:
+                flightService().show();
+                System.out.println("Вывод списка.");
+                break;
+            case 3:
+                taskService().lesson1();
+                System.out.println("Вывод задачи 1.");
+                break;
+            case 4:
+                taskService().lesson2();
+                System.out.println("Вывод задачи 2.");
+                break;
+            case 5:
+                taskService().lesson3();
+                System.out.println("Вывод задачи 3.");
+                break;
+            default:
+                if (num == 0) {
+                    System.out.println("Выход из программы.");
+                } else {
+                    System.out.println("Выбирите действия из меню.");
+                }
+                break;
         }
     }
+
+    private int menu() {
+        System.out.println("\n\tВыбирите действие:" +
+                "\n\t1 - записать полёт." +
+                "\n\t2 - вывести список." +
+                "\n\t3 - задачаN1." +
+                "\n\t4 - задачаN2." +
+                "\n\t5 - задачаN3." +
+                "\n\t0 - выйти из программы.");
+        return getInteger();
+    }
+
 }
